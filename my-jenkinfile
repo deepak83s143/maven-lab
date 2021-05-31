@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    tools {
+        maven "mymaven"
+        jdk "myjava"
+    }
+
+    stages {
+        stage('checkout') {
+            steps {
+                git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+            }
+        }    
+        stage('compile') {
+            steps {
+                sh "mvn compile"
+            }
+        }
+        stage('codereview') {
+            steps {
+             sh "mvn pmd:pmd"
+            }
+        }     
+        stage('unittest') {
+            steps {
+             sh "mvn test"
+            }
+        }
+        stage('MetricCheck') {
+            steps {
+             sh "mvn cobertura:cobertura -Dcobertura.report.format=xml"
+            }
+        }
+        stage('package') {
+            steps {
+             sh "mvn package"
+            }
+        }
+    }
+}
