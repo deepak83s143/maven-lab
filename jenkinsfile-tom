@@ -43,10 +43,8 @@ pipeline {
 		steps {
                 echo 'Create WAR file and Deployed to Prod.'
 		sh 'mvn package'
-		sh 'sudo docker cp target/addressbook.war 2399463f7deb:/usr/local/tomcat/webapps/'
-		sh 'sudo docker stop 2399463f7deb'
-		sh 'sudo docker start 2399463f7deb'
-		sh 'sudo docker ps -a | grep 2399463f7deb'
+		sh 'sudo docker cp target/addressbook.war 9749300735b1:/usr/local/tomcat/webapps/'
+		sh 'sudo docker ps -a | grep 9749300735b1'
             }
         }    
     }
