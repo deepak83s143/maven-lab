@@ -1,0 +1,49 @@
+pipeline {
+    agent {
+	label 'agent2'
+	}
+  tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        jdk 'myjava'
+        maven 'mymaven'
+    }
+    stages {
+        stage('Git-Checkout') {
+            steps {
+                echo 'Clone Repository from GitHub'
+			
+                git 'https://github.com/devops-trainer/DevOpsClassCodes.git'
+            }
+        }
+        stage('Compile') {
+            steps {
+                echo 'Code is Compiling'
+		sh 'mvn compile'
+            }
+        }
+        stage('CodeReview') {
+            steps {
+                echo 'After Compiling now code is reviewing'
+         	sh 'mvn pmd:pmd'
+	      }
+        }
+        stage('UnitTest') {
+            steps {
+                echo 'Testing of Code'
+		sh 'mvn test'
+            }
+        }
+        stage('MetricCheck') {
+            steps {
+                echo 'Checking......>>>>'
+		sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml'
+            }
+        }
+        stage('Packaging') {
+		steps {
+                echo 'Create WAR file and Deployed to Prod.'
+		sh 'mvn package'
+            }
+        }    
+    }
+}

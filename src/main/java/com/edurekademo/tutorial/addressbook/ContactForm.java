@@ -30,7 +30,7 @@ public class ContactForm extends FormLayout {
     TextField phone = new TextField("Phone");
     TextField email = new TextField("Email");
     DateField birthDate = new DateField("Birth date");
-    TextField phone = new TextField("Address");
+    TextField Address = new TextField("Address");
 
     Contact contact;
 
